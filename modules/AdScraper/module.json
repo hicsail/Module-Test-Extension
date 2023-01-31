@@ -1,0 +1,15 @@
+{
+  "name": "Ad Scraper",
+  "service_worker_scripts": ["js/worker.js"],
+  "content_scripts": [
+    "js/content.js",
+    "js/sites/amazon.js",
+    "js/sites/google.js",
+    "js/sites/bing.js",
+    "js/sites/duckduckgo.js",
+    "js/sites/yahoo.js",
+    "js/sites/target.js"
+  ],
+  "permissions": [],
+  "host_permissions": []
+}
