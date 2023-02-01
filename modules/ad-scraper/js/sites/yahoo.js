@@ -30,6 +30,7 @@ function yahooAllTabAdsWithoutPhoto() {
     listenClickOnAd(item, productURL);
 
     const adsItem = {
+      asin: extractAsinFromUrl(productURL),
       content: "records_ads",
       url: window.location.href,
       host: window.location.host,
@@ -62,7 +63,9 @@ function yahooAllTabAdsWithPhoto() {
       const infoContainer = item.querySelector("div.text");
       const adsDescription =
         infoContainer.querySelector("div.first").textContent;
-      const supplier = infoContainer.querySelector("div.seller").textContent;
+      const supplier = infoContainer
+        .querySelector("div.seller")
+        .textContent.trim();
       const productURL = item.querySelector("a")["href"];
       const currentPriceNode = infoContainer.querySelector("div.current-price");
       const originalPriceNode = infoContainer.querySelector("div.origin-price");
@@ -73,6 +76,7 @@ function yahooAllTabAdsWithPhoto() {
       listenClickOnAd(item, productURL);
 
       const adsItem = {
+        asin: extractAsinFromUrl(productURL),
         content: "records_ads",
         url: window.location.href,
         host: window.location.host,
@@ -116,6 +120,7 @@ function yahooImageTabAdsWithoutPhoto() {
       listenClickOnAd(item, productURL);
 
       const adsItem = {
+        asin: extractAsinFromUrl(productURL),
         content: "records_ads",
         url: window.location.href,
         host: window.location.host,
@@ -159,6 +164,7 @@ function yahooImageTabAdsWithPhoto() {
       listenClickOnAd(item, productURL);
 
       const adsItem = {
+        asin: extractAsinFromUrl(productURL),
         content: "records_ads",
         url: window.location.href,
         host: window.location.host,

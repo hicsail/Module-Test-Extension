@@ -34,6 +34,7 @@ function bingAdsWithoutPhoto() {
     listenClickOnAd(item, productURL);
 
     const adsItem = {
+      asin: extractAsinFromUrl(productURL),
       content: "records_ads",
       url: window.location.href,
       host: window.location.host,
@@ -119,6 +120,7 @@ function bingSearchTabAdsWithPhoto() {
       listenClickOnAd(item, productURL);
 
       const adsItem = {
+        asin: extractAsinFromUrl(productURL),
         content: "records_ads",
         url: window.location.href,
         host: window.location.host,
@@ -194,6 +196,7 @@ function bingSearchTabAboutWithPhoto() {
         listenClickOnAd(item, productURL);
 
         const adsItem = {
+          asin: extractAsinFromUrl(productURL),
           content: "records_ads",
           url: window.location.href,
           host: window.location.host,
@@ -251,6 +254,7 @@ function bingSearchTabCarAdsContainer() {
       listenClickOnAd(item, productURL);
 
       const adsItem = {
+        asin: extractAsinFromUrl(productURL),
         content: "records_ads",
         url: window.location.href,
         host: window.location.host,
@@ -308,6 +312,7 @@ function bingSearchTabCarAdsSlidebar() {
       listenClickOnAd(item, productURL);
 
       const adsItem = {
+        asin: extractAsinFromUrl(productURL),
         content: "records_ads",
         url: window.location.href,
         host: window.location.host,
@@ -367,6 +372,7 @@ function bingImagesTabAdsWithPhoto() {
       listenClickOnAd(item, productURL);
 
       const adsItem = {
+        asin: extractAsinFromUrl(productURL),
         content: "records_ads",
         url: window.location.href,
         host: window.location.host,
@@ -426,6 +432,7 @@ function bingShoppingTabAds() {
       listenClickOnAd(item, productURL);
 
       const adsItem = {
+        asin: extractAsinFromUrl(productURL),
         content: "records_ads",
         url: window.location.href,
         host: window.location.host,

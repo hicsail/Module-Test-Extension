@@ -32,6 +32,7 @@ function ddgAllTabsAdsWithoutPhoto() {
     listenClickOnAd(article, productURL);
 
     const adsItem = {
+      asin: extractAsinFromUrl(productURL),
       content: "records_ads",
       url: window.location.href,
       host: window.location.host,
@@ -94,6 +95,7 @@ function ddgAllTabsAdsWithPhoto() {
     listenClickOnAd(adsContainer, productURL);
 
     const adsItem = {
+      asin: extractAsinFromUrl(productURL),
       content: "records_ads",
       url: window.location.href,
       host: window.location.host,
@@ -147,6 +149,7 @@ function ddgAllTabsSideAds() {
     listenClickOnAd(adsContainer, productURL);
 
     const adsItem = {
+      asin: extractAsinFromUrl(productURL),
       content: "records_ads",
       url: window.location.href,
       host: window.location.host,
@@ -213,6 +216,7 @@ function ddgShoppingTabAds() {
       listenClickOnAd(item, productURL);
 
       const adsItem = {
+        asin: extractAsinFromUrl(productURL),
         content: "records_ads",
         url: window.location.href,
         host: window.location.host,

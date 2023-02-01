@@ -36,6 +36,7 @@ function googleAllTabAdsWithoutPhoto() {
       listenClickOnAd(adsContainer, productURL);
 
       const adsItem = {
+        asin: extractAsinFromUrl(productURL),
         content: "records_ads",
         url: window.location.href,
         host: window.location.host,
@@ -87,6 +88,7 @@ function googleAllTabAdsWithPhoto() {
         listenClickOnAd(item, productURL);
 
         const adsItem = {
+          asin: extractAsinFromUrl(productURL),
           content: "records_ads",
           url: window.location.href,
           host: window.location.host,
@@ -134,6 +136,7 @@ function googleAllTabAdsWithPhoto() {
         listenClickOnAd(item, productURL);
 
         const adsItem = {
+          asin: extractAsinFromUrl(productURL),
           content: "records_ads",
           url: window.location.href,
           host: window.location.host,
@@ -191,6 +194,7 @@ function googleImageTabAds() {
       listenClickOnAd(item, productURL);
 
       const adsItem = {
+        asin: extractAsinFromUrl(productURL),
         content: "records_ads",
         url: window.location.href,
         host: window.location.host,
@@ -230,6 +234,7 @@ function googleImageTabAds() {
       listenClickOnAd(item, productURL);
 
       const adsItem = {
+        asin: extractAsinFromUrl(productURL),
         content: "records_ads",
         url: window.location.href,
         host: window.location.host,
@@ -288,6 +293,7 @@ function googleShoppingTabAds() {
       listenClickOnAd(item, productURL);
 
       const adsItem = {
+        asin: extractAsinFromUrl(productURL),
         content: "records_ads",
         url: window.location.href,
         host: window.location.host,
