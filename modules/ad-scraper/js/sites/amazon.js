@@ -370,14 +370,6 @@ function detectDuplicateAndSendMsg(collection, item) {
   sendMsg(item);
 }
 
-function extractAsinFromUrl(url) {
-  const regex = RegExp(
-    "(http|https)://www.amazon..*(%2Fdp%2F|/dp/)([A-Z0-9]{10})"
-  );
-
-  return url.match(regex)[3];
-}
-
 function extractCurrentAmazonPrice(node) {
   try {
     const currentPrice = node
