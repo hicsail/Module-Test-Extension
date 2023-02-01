@@ -110,6 +110,7 @@ function googleAllTabAdsWithPhoto() {
       }
     }
 
+    // scraping for car ads
     const carList = adsContainer.querySelectorAll("g-inner-card");
     for (const item of carList) {
       try {
@@ -210,6 +211,7 @@ function googleImageTabAds() {
       sendMsg(adsItem);
     }
 
+    // scraping for car ads
     const carList = adsContainer.querySelectorAll("div.sc-it");
     for (const item of carList) {
       const infoContainer = item.querySelector("img").parentNode.nextSibling;
