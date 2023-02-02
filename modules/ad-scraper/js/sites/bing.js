@@ -79,13 +79,7 @@ function bingAdsWithoutPhoto() {
  * Bing search at "search" tab: Scraping ads with images (ads)
  */
 function bingSearchTabAdsWithPhoto() {
-  if (
-    !document
-      .querySelector("header")
-      .querySelector("form")
-      ["action"].includes(".com/search")
-  )
-    return;
+  if (document.location.pathname !== "/search") return;
 
   const adsContainers = document.querySelectorAll(
     "div.adsMvCarousel.pa_carousel"
@@ -98,6 +92,7 @@ function bingSearchTabAdsWithPhoto() {
 
     for (const item of itemList.childNodes) {
       if (item.classList.contains("see_more")) continue;
+      console.log(item);
       let adsDescription = "";
       item
         .querySelector("p.pa_title")
@@ -151,13 +146,7 @@ function bingSearchTabAdsWithPhoto() {
  * Bing search at "search" tab: Scraping ads with images (about)
  */
 function bingSearchTabAboutWithPhoto() {
-  if (
-    !document
-      .querySelector("header")
-      .querySelector("form")
-      ["action"].includes(".com/search")
-  )
-    return;
+  if (document.location.pathname !== "/search") return;
 
   const adsContainers = document.querySelectorAll("div.br-pcContainer");
   for (const adsContainer of adsContainers) {
@@ -170,83 +159,29 @@ function bingSearchTabAboutWithPhoto() {
     }
     for (const item of itemList) {
       if (item.classList.contains("see_more")) continue;
-      try {
-        const adsDescription = item.querySelector("div.pcc-ttl").textContent;
-        const supplier = item.querySelector("div.sa_seller").textContent;
-        const productURL = item.querySelector("a")["href"];
-        const currentPrice = Number(
-          item
-            .querySelector("div.sa_price")
-            .textContent.split("$")[1]
-            .replaceAll(/[^0-9^\.]/g, "")
-        );
-        const originalPrice =
-          item.querySelector("div.sa_price").textContent.split("$").length > 2
-            ? Number(
-                item
-                  .querySelector("div.sa_price")
-                  .textContent.split("$")[2]
-                  .replaceAll(/[^0-9^\.]/g, "")
-              )
-            : null;
-        const img = item.querySelector("img");
-        let imgURL = isURL(img["src"]) ? img["src"] : null;
-        let imgBASE64 = isURL(img["src"]) ? null : img["src"];
+      console.log(item);
 
-        listenClickOnAd(item, productURL);
-
-        const adsItem = {
-          asin: extractAsinFromUrl(productURL),
-          content: "records_ads",
-          url: window.location.href,
-          host: window.location.host,
-          pageTitle: document.title,
-          adsDescription,
-          supplier,
-          productURL,
-          currentPrice,
-          originalPrice,
-          imgURL,
-          imgBASE64,
-          imageHeight: img.height,
-          imageWidth: img.width,
-          videoPreview: null,
-          videoURL: null,
-        };
-
-        sendMsg(adsItem);
-      } catch (e) {
-        return;
-      }
-    }
-  }
-}
-
-/**
- * Bing search at "search" tab: Scraping car ads in container
- */
-function bingSearchTabCarAdsContainer() {
-  if (
-    !document
-      .querySelector("header")
-      .querySelector("form")
-      ["action"].includes(".com/search")
-  )
-    return;
-
-  try {
-    const itemList = document
-      .querySelector("div.autos_ads_container")
-      .querySelectorAll("div.autosAd");
-    for (const item of itemList) {
-      const adsDescription = item.querySelector("div.autosTitle").textContent;
-      const supplier = item.querySelector("span.dealerName").textContent;
-      const productURL = item.parentNode["href"];
+      const adsDescription = item
+        .querySelector("div.pcc-ttl")
+        .querySelector("span")
+        .getAttribute("title");
+      const supplier = item.querySelector("div.sa_seller").textContent;
+      const productURL = item.querySelector("a")["href"];
       const currentPrice = Number(
         item
-          .querySelector("div.priceDetails_A")
-          .textContent.replaceAll(/[^0-9^\.]/g, "")
+          .querySelector("div.sa_price")
+          .textContent.split("$")[1]
+          .replaceAll(/[^0-9^\.]/g, "")
       );
+      const originalPrice =
+        item.querySelector("div.sa_price").textContent.split("$").length > 2
+          ? Number(
+              item
+                .querySelector("div.sa_price")
+                .textContent.split("$")[2]
+                .replaceAll(/[^0-9^\.]/g, "")
+            )
+          : null;
       const img = item.querySelector("img");
       let imgURL = isURL(img["src"]) ? img["src"] : null;
       let imgBASE64 = isURL(img["src"]) ? null : img["src"];
@@ -263,7 +198,7 @@ function bingSearchTabCarAdsContainer() {
         supplier,
         productURL,
         currentPrice,
-        originalPrice: null,
+        originalPrice,
         imgURL,
         imgBASE64,
         imageHeight: img.height,
@@ -274,8 +209,53 @@ function bingSearchTabCarAdsContainer() {
 
       sendMsg(adsItem);
     }
-  } catch (error) {
-    return;
+  }
+}
+
+/**
+ * Bing search at "search" tab: Scraping car ads in container
+ */
+function bingSearchTabCarAdsContainer() {
+  if (document.location.pathname !== "/search") return;
+
+  const itemList = document
+    .querySelector("div.autos_ads_container")
+    .querySelectorAll("div.autosAd");
+  for (const item of itemList) {
+    const adsDescription = item.querySelector("div.autosTitle").textContent;
+    const supplier = item.querySelector("span.dealerName").textContent;
+    const productURL = item.parentNode["href"];
+    const currentPrice = Number(
+      item
+        .querySelector("div.priceDetails_A")
+        .textContent.replaceAll(/[^0-9^\.]/g, "")
+    );
+    const img = item.querySelector("img");
+    let imgURL = isURL(img["src"]) ? img["src"] : null;
+    let imgBASE64 = isURL(img["src"]) ? null : img["src"];
+
+    listenClickOnAd(item, productURL);
+
+    const adsItem = {
+      asin: extractAsinFromUrl(productURL),
+      content: "records_ads",
+      url: window.location.href,
+      host: window.location.host,
+      pageTitle: document.title,
+      adsDescription,
+      supplier,
+      productURL,
+      currentPrice,
+      originalPrice: null,
+      imgURL,
+      imgBASE64,
+      imageHeight: img.height,
+      imageWidth: img.width,
+      videoPreview: null,
+      videoURL: null,
+    };
+
+    sendMsg(adsItem);
   }
 }
 
@@ -283,57 +263,47 @@ function bingSearchTabCarAdsContainer() {
  * Bing search at "search" tab: Scraping car ads in slidebar
  */
 function bingSearchTabCarAdsSlidebar() {
-  if (
-    !document
-      .querySelector("header")
-      .querySelector("form")
-      ["action"].includes(".com/search")
-  )
-    return;
+  if (document.location.pathname !== "/search") return;
 
-  try {
-    const adsContainer = document
-      .querySelector("div.ProductAdsContainer")
-      .querySelector("div.b_slidebar");
-    for (const item of adsContainer.childNodes) {
-      const adsDescription =
-        item.querySelector("div.slideTitle").querySelector("span")?.title ??
-        item.querySelector("div.slideTitle").textContent;
-      const productURL = item.querySelector("a")["href"];
-      const currentPrice = Number(
-        item
-          .querySelector("div.bm_adprice")
-          .textContent.replaceAll(/[^0-9^\.]/g, "")
-      );
-      const img = item.querySelector("img");
-      let imgURL = isURL(img["src"]) ? img["src"] : null;
-      let imgBASE64 = isURL(img["src"]) ? null : img["src"];
+  const adsContainer = document
+    .querySelector("div.ProductAdsContainer")
+    .querySelector("div.b_slidebar");
+  for (const item of adsContainer.childNodes) {
+    const adsDescription =
+      item.querySelector("div.slideTitle").querySelector("span")?.title ??
+      item.querySelector("div.slideTitle").textContent;
+    const productURL = item.querySelector("a")["href"];
+    const currentPrice = Number(
+      item
+        .querySelector("div.bm_adprice")
+        .textContent.replaceAll(/[^0-9^\.]/g, "")
+    );
+    const img = item.querySelector("img");
+    let imgURL = isURL(img["src"]) ? img["src"] : null;
+    let imgBASE64 = isURL(img["src"]) ? null : img["src"];
 
-      listenClickOnAd(item, productURL);
+    listenClickOnAd(item, productURL);
 
-      const adsItem = {
-        asin: extractAsinFromUrl(productURL),
-        content: "records_ads",
-        url: window.location.href,
-        host: window.location.host,
-        pageTitle: document.title,
-        adsDescription,
-        supplier: null,
-        productURL,
-        currentPrice,
-        originalPrice: null,
-        imgURL,
-        imgBASE64,
-        imageHeight: img.height,
-        imageWidth: img.width,
-        videoPreview: null,
-        videoURL: null,
-      };
+    const adsItem = {
+      asin: extractAsinFromUrl(productURL),
+      content: "records_ads",
+      url: window.location.href,
+      host: window.location.host,
+      pageTitle: document.title,
+      adsDescription,
+      supplier: null,
+      productURL,
+      currentPrice,
+      originalPrice: null,
+      imgURL,
+      imgBASE64,
+      imageHeight: img.height,
+      imageWidth: img.width,
+      videoPreview: null,
+      videoURL: null,
+    };
 
-      sendMsg(adsItem);
-    }
-  } catch (error) {
-    return;
+    sendMsg(adsItem);
   }
 }
 
@@ -341,13 +311,7 @@ function bingSearchTabCarAdsSlidebar() {
  * Bing search at "images" tab: Scraping ads with images
  */
 function bingImagesTabAdsWithPhoto() {
-  if (
-    !document
-      .querySelector("header")
-      .querySelector("form")
-      ["action"].includes(".com/images/search")
-  )
-    return;
+  if (document.location.pathname !== "/images/search") return;
 
   const adsContainers = document.querySelectorAll("div.ra_car_container");
   for (const adsContainer of adsContainers) {
@@ -403,13 +367,7 @@ function bingImagesTabAdsWithPhoto() {
  * Bing search at "Shopping" tab: Scraping ads
  */
 function bingShoppingTabAds() {
-  if (
-    !document
-      .querySelector("header")
-      .querySelector("form")
-      ["action"].includes(".com/shop")
-  )
-    return;
+  if (document.location.pathname !== "/shop") return;
 
   const adsContainers = document.querySelectorAll(
     "div.br-pcContainer[carouselid]"
