@@ -30,6 +30,7 @@ function bingAdsWithoutPhoto() {
     const adsDescription = item.querySelector("a").textContent;
     const supplier = item.querySelector("cite").textContent;
     const productURL = item.querySelector("a")["href"];
+    if (!isURL(productURL)) return;
 
     listenClickOnAd(item, productURL);
 
@@ -64,6 +65,8 @@ function bingAdsWithoutPhoto() {
   }
 
   for (const adsContainer of adsContainers) {
+    if (adsContainer.querySelector(".adsMvCarousel")) return;
+
     const itemList = adsContainer.querySelectorAll(itemListIdentifier);
     for (const item of itemList) {
       try {
@@ -92,7 +95,6 @@ function bingSearchTabAdsWithPhoto() {
 
     for (const item of itemList.childNodes) {
       if (item.classList.contains("see_more")) continue;
-      console.log(item);
       let adsDescription = "";
       item
         .querySelector("p.pa_title")
@@ -148,7 +150,9 @@ function bingSearchTabAdsWithPhoto() {
 function bingSearchTabAboutWithPhoto() {
   if (document.location.pathname !== "/search") return;
 
-  const adsContainers = document.querySelectorAll("div.br-pcContainer");
+  const adsContainers = document.querySelectorAll(
+    "div.br-pcContainer.adsMvCarousel, div.br-pcContainer:not([carouselid])"
+  );
   for (const adsContainer of adsContainers) {
     let itemList = adsContainer.querySelectorAll(".br-gridInterCard");
     if (itemList.length === 0) {
@@ -159,12 +163,13 @@ function bingSearchTabAboutWithPhoto() {
     }
     for (const item of itemList) {
       if (item.classList.contains("see_more")) continue;
-      console.log(item);
 
-      const adsDescription = item
-        .querySelector("div.pcc-ttl")
-        .querySelector("span")
-        .getAttribute("title");
+      const adsDescription =
+        item
+          .querySelector("div.pcc-ttl")
+          ?.querySelector("span")
+          ?.getAttribute("title") ??
+        item.querySelector("div.pcc-ttl").textContent;
       const supplier = item.querySelector("div.sa_seller").textContent;
       const productURL = item.querySelector("a")["href"];
       const currentPrice = Number(
@@ -220,7 +225,8 @@ function bingSearchTabCarAdsContainer() {
 
   const itemList = document
     .querySelector("div.autos_ads_container")
-    .querySelectorAll("div.autosAd");
+    ?.querySelectorAll("div.autosAd");
+  if (!itemList || itemList?.length === 0) return;
   for (const item of itemList) {
     const adsDescription = item.querySelector("div.autosTitle").textContent;
     const supplier = item.querySelector("span.dealerName").textContent;
@@ -267,7 +273,8 @@ function bingSearchTabCarAdsSlidebar() {
 
   const adsContainer = document
     .querySelector("div.ProductAdsContainer")
-    .querySelector("div.b_slidebar");
+    ?.querySelector("div.b_slidebar");
+  if (!adsContainer || adsContainer?.length === 0) return;
   for (const item of adsContainer.childNodes) {
     const adsDescription =
       item.querySelector("div.slideTitle").querySelector("span")?.title ??
