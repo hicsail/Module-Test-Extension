@@ -64,11 +64,11 @@ function yahooAllTabAdsWithPhoto() {
       const adsDescription =
         infoContainer.querySelector("div.first").textContent;
       const supplier = infoContainer
-        .querySelector("div.seller")
-        .textContent.trim();
+        .querySelector("div.seller, div.adsSeller")
+        ?.textContent.trim();
       const productURL = item.querySelector("a")["href"];
-      const currentPriceNode = infoContainer.querySelector("div.current-price");
-      const originalPriceNode = infoContainer.querySelector("div.origin-price");
+      const currentPriceNode = item.querySelector("div.current-price");
+      const originalPriceNode = item.querySelector("div.origin-price");
       const img = item.querySelector("img");
       let imgURL = isURL(img["src"]) ? img["src"] : null;
       let imgBASE64 = isURL(img["src"]) ? null : img["src"];
