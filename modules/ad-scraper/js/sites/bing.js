@@ -7,7 +7,7 @@ function bingScraper() {
     setTimeout(bingScraperHelper, 1000);
 
     window.onchange = function () {
-      setTimeout(bingScraperHelper, 1000);
+      setTimeout(bingScraperHelper, 2000);
     };
   };
 }
@@ -17,6 +17,7 @@ function bingScraperHelper() {
   bingSearchTabAdsWithPhoto();
   bingSearchTabAboutWithPhoto();
   bingSearchTabCarAdsContainer();
+  bingSearchTabCarAdsCarousel();
   bingSearchTabCarAdsSlidebar();
   bingImagesTabAdsWithPhoto();
   bingShoppingTabAds();
@@ -234,6 +235,66 @@ function bingSearchTabCarAdsContainer() {
     const currentPrice = Number(
       item
         .querySelector("div.priceDetails_A")
+        .textContent.replaceAll(/[^0-9^\.]/g, "")
+    );
+    const img = item.querySelector("img");
+    let imgURL = isURL(img["src"]) ? img["src"] : null;
+    let imgBASE64 = isURL(img["src"]) ? null : img["src"];
+
+    listenClickOnAd(item, productURL);
+
+    const adsItem = {
+      asin: extractAsinFromUrl(productURL),
+      content: "records_ads",
+      url: window.location.href,
+      host: window.location.host,
+      pageTitle: document.title,
+      adsDescription,
+      supplier,
+      productURL,
+      currentPrice,
+      originalPrice: null,
+      imgURL,
+      imgBASE64,
+      imageHeight: img.height,
+      imageWidth: img.width,
+      videoPreview: null,
+      videoURL: null,
+    };
+
+    sendMsg(adsItem);
+  }
+}
+
+/**
+ * Bing search at "search" tab: Scraping car ads in carousel
+ */
+function bingSearchTabCarAdsCarousel() {
+  if (document.location.pathname !== "/search") return;
+
+  const adsContainer = document.querySelector("div.autos_ml_ads_container");
+  const adsCarousel = adsContainer?.querySelector(
+    "div.ta_carousel.adsMvCarousel"
+  );
+  const listId = adsCarousel?.getAttribute("carouselid");
+  const itemList = adsContainer?.querySelector(
+    `div#slideexp${listId}.b_slidebar`
+  );
+  if (!itemList || itemList?.length === 0) return;
+  for (const item of itemList.childNodes) {
+    if (item.classList.contains("see_more")) continue;
+    const adsDescription =
+      item
+        .querySelector("div.title")
+        .querySelector("span")
+        ?.getAttribute("title") ?? item.querySelector("div.title").textContent;
+    const supplier = item
+      .querySelector("div.dealerDetails")
+      .querySelector("span.dealerName").textContent;
+    const productURL = item.querySelector("a")["href"];
+    const currentPrice = Number(
+      item
+        .querySelector("div.priceDetails")
         .textContent.replaceAll(/[^0-9^\.]/g, "")
     );
     const img = item.querySelector("img");
