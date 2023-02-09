@@ -3,16 +3,72 @@ window.registerModuleCallback(duckduckgoScraper);
 function duckduckgoScraper() {
   if (document.location.host !== "duckduckgo.com") return;
 
-  window.onload = function () {
+  window.addEventListener("load", () => {
+    // only scrape all tab once loaded
     duckduckgoScraperHelper();
-  };
+
+    // due to the way duckduckgo loads the page, we need to observe the class changes
+    // there are only two tabs we are interested in: all and shopping
+    // normally, user will access the site via all tab, not the shopping tab
+    // if the user has not accessed the shopping tab, the shopping tab will not be loaded
+    // once they are all loaded, duuckduckgo will hide or make active to the tab that user is currently using
+    const classObserverConfig = {
+      attributes: true,
+      attributeFilter: ["class"],
+    };
+
+    const allTabObserver = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        if (!mutation.target.classList.contains("is-hidden")) {
+          setTimeout(duckduckgoScraperHelper, 1500);
+        }
+      });
+    });
+
+    // TODO: this shopping tab will trigger multiple times due multiple injection of the content script
+    // so far it still cannot print out the item listed in the shopping tab
+    let shoppingTabTriggered = false;
+    const shoppingTabObserver = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        if (
+          mutation.target.classList.contains("is-active") &&
+          !shoppingTabTriggered
+        ) {
+          setTimeout(ddgShoppingTabAds, 5000);
+          shoppingTabTriggered = true;
+        }
+      });
+    });
+
+    const zeroClickWrapperConfig = { childList: true };
+    const zeroClickWrapperObserver = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        console.log(mutation);
+        if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
+          mutation.addedNodes.forEach(function (node) {
+            if (node.classList.contains("zci--products")) {
+              setTimeout(ddgShoppingTabAds, 5000);
+              const shoppingTab = document.querySelector(".zci--products");
+              shoppingTabObserver.observe(shoppingTab, classObserverConfig);
+              zeroClickWrapperObserver.disconnect();
+            }
+          });
+        }
+      });
+    });
+
+    // observe the node for attributes changes
+    const allTabContent = document.querySelector("div#web_content_wrapper");
+    const zeroClickWrapper = document.querySelector("div#zero_click_wrapper");
+    allTabObserver.observe(allTabContent, classObserverConfig);
+    zeroClickWrapperObserver.observe(zeroClickWrapper, zeroClickWrapperConfig);
+  });
 }
 
 function duckduckgoScraperHelper() {
   ddgAllTabsAdsWithoutPhoto();
   ddgAllTabsAdsWithPhoto();
   ddgAllTabsSideAds();
-  ddgShoppingTabAds();
 }
 
 /**
@@ -176,31 +232,15 @@ function ddgAllTabsSideAds() {
  */
 function ddgShoppingTabAds() {
   try {
-    console.log("ddgShoppingTabAds");
     const itemList = document
       .querySelector("div.tile-wrap")
       .querySelectorAll("div.tile--products");
-    console.log(document.querySelector("div.tile-wrap"));
-    console.log(
-      document
-        .querySelector("div.tile-wrap")
-        .querySelectorAll("div.tile--products")
-    );
 
     for (const item of itemList) {
-      console.log(item);
-      console.log(item.querySelector("h6.tile__title"));
-      console.log(item.querySelector("h6.tile__title").querySelector("a"));
-      console.log(
-        item
-          .querySelector("h6.tile__title")
-          .querySelector("a")
-          .getattribute("title")
-      );
       const adsDescription = item
         .querySelector("h6.tile__title")
         .querySelector("a")
-        .getattribute("title");
+        .getAttribute("title");
       const supplier = item.querySelector("a.tile--pr__brand").textContent;
       const productURL = item.querySelector("a")["href"];
       const currentPriceNode = item
