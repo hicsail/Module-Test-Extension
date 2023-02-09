@@ -8,7 +8,8 @@
     "js/sites/bing.js",
     "js/sites/duckduckgo.js",
     "js/sites/yahoo.js",
-    "js/sites/target.js"
+    "js/sites/target.js",
+    "js/sites/prebidSites.js"
   ],
   "permissions": [],
   "host_permissions": []
