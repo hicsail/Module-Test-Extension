@@ -3,18 +3,32 @@ window.registerModuleCallback(targetScraper);
 function targetScraper() {
   if (document.location.host !== "www.target.com") return;
 
-  window.onload = function () {
-    targetSearchResultScraper();
-  };
+  const adsLog = new Set();
+  console.log("Target Scraper started");
+
+  window.addEventListener("load", () => {
+    setInterval(() => {
+      targetSearchResultScraper(adsLog);
+    }, 5000);
+  });
 }
 
 /**
  * Scraping sponsored item in the result board
  */
-function targetSearchResultScraper() {
+function targetSearchResultScraper(adsLog) {
   const sponsoredTags = document.querySelectorAll("p[data-test=sponsoredText]");
+
+  let cnt = 0;
   for (const tag of sponsoredTags) {
     const item = tag.closest("div[class^=styles__StyledCol-sc]");
+    const id = extractIdFromURL(item.querySelector("a")["href"]);
+
+    if (adsLog.has(id)) continue;
+
+    adsLog.add(id);
+    console.log(id + " CNT: " + cnt++);
+
     const adsDescription = item.querySelector(
       "a[data-test=product-title]"
     ).textContent;
@@ -57,4 +71,10 @@ function targetSearchResultScraper() {
 
     sendMsg(adsItem);
   }
+}
+
+// extract id from url which start with "A-" and followed by 8 digits
+function extractTargetIdFromURL(url) {
+  const regex = RegExp("A-[0-9]{8}");
+  return url.match(regex)[0];
 }
