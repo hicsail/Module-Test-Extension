@@ -66,9 +66,7 @@ function googleAllTabAdsWithPhoto() {
   const adsContainers = document.querySelectorAll("div.cu-container");
 
   for (const adsContainer of adsContainers) {
-    const itemList = adsContainer.querySelectorAll(
-      "div.mnr-c.pla-unit:not(.view-all-unit)"
-    );
+    const itemList = adsContainer.querySelectorAll("div.mnr-c.pla-unit:not(.view-all-unit)");
     for (const item of itemList) {
       try {
         const adsDescription = item
@@ -120,9 +118,7 @@ function googleAllTabAdsWithPhoto() {
           .querySelector('[aria-label^="Title of"]')
           ["ariaLabel"].replace("Title of ", "");
 
-        const supplier = item.querySelector(
-          'span[aria-label^="From"]'
-        ).textContent;
+        const supplier = item.querySelector('span[aria-label^="From"]').textContent;
         const productURL = item.querySelector("a")["href"];
         const currentPrice = Number(
           item
@@ -176,12 +172,9 @@ function googleImageTabAds() {
       const infoContainer = item
         .querySelector("div[jsaction^=mouseenter]")
         .querySelector("div[style^=margin]").parentNode;
-      const adsDescription =
-        infoContainer.childNodes[0].querySelector("span").textContent;
+      const adsDescription = infoContainer.childNodes[0].querySelector("span").textContent;
       const currentPrice = Number(
-        infoContainer.childNodes[1].textContent
-          .split("$")[1]
-          .replaceAll(",", "")
+        infoContainer.childNodes[1].textContent.split("$")[1].replaceAll(",", "")
       );
       const originalPrice = infoContainer.childNodes[1]
         .querySelector("span")
@@ -223,9 +216,7 @@ function googleImageTabAds() {
       const supplier = infoContainer.childNodes[5].textContent;
       const productURL = item.querySelector("a")["href"];
       const currentPrice = Number(
-        infoContainer.childNodes[2].textContent
-          .split("$")[1]
-          .replaceAll(/[^0-9^\.]/g, "")
+        infoContainer.childNodes[2].textContent.split("$")[1].replaceAll(/[^0-9^\.]/g, "")
       );
       const img = item.querySelector("img");
       let imgURL = isURL(img["src"]) ? img["src"] : null;
@@ -261,9 +252,7 @@ function googleImageTabAds() {
  * Google search at "shopping" tab: Scraping ads in carousel lists
  */
 function googleShoppingTabAds() {
-  const adsContainers = document.querySelectorAll(
-    "div[class=sh-sr__shop-result-group]"
-  );
+  const adsContainers = document.querySelectorAll("div[class=sh-sr__shop-result-group]");
 
   for (let idx = 0; idx < adsContainers.length; idx++) {
     if (adsContainers.length < 3 && idx > 0) break; // when there is only one ads list
@@ -274,9 +263,7 @@ function googleShoppingTabAds() {
         .querySelector("div.sh-np__seller-container[aria-label]")
         ["ariaLabel"].substring(4)
         .trim();
-      const adsDescription = item.querySelector(
-        ".sh-np__product-title"
-      ).textContent;
+      const adsDescription = item.querySelector(".sh-np__product-title").textContent;
       const productURL = item.querySelector("a")["href"];
       const prices = item
         .querySelector(".sh-np__product-title")
@@ -284,8 +271,7 @@ function googleShoppingTabAds() {
         .textContent.replaceAll(/[a-zA-Z]/g, "")
         .split("$");
       const currentPrice = Number(prices[1].replaceAll(",", ""));
-      const originalPrice =
-        prices.length > 2 ? Number(prices[2].replaceAll(",", "")) : null;
+      const originalPrice = prices.length > 2 ? Number(prices[2].replaceAll(",", "")) : null;
       const img = item.querySelector("img");
       let imgURL = isURL(img["src"]) ? img["src"] : null;
       let imgBASE64 = isURL(img["src"]) ? null : img["src"];

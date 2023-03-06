@@ -29,14 +29,10 @@ function targetSearchResultScraper(adsLog) {
     adsLog.add(id);
     console.log(id + " CNT: " + cnt++);
 
-    const adsDescription = item.querySelector(
-      "a[data-test=product-title]"
-    ).textContent;
+    const adsDescription = item.querySelector("a[data-test=product-title]").textContent;
     const productURL = item.querySelector("a")["href"];
     const currentPrice = Number(
-      item
-        .querySelector("span[data-test=current-price]")
-        .textContent.replaceAll(/[^0-9^\.]/g, "")
+      item.querySelector("span[data-test=current-price]").textContent.replaceAll(/[^0-9^\.]/g, "")
     );
     const originalPrice = item.querySelector("span[data-test=comparison-price]")
       ? Number(

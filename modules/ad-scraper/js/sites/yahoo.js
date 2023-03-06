@@ -61,11 +61,8 @@ function yahooAllTabAdsWithPhoto() {
     const itemList = adsContainer.querySelectorAll("li[class*=bcapla]");
     for (const item of itemList) {
       const infoContainer = item.querySelector("div.text");
-      const adsDescription =
-        infoContainer.querySelector("div.first").textContent;
-      const supplier = infoContainer
-        .querySelector("div.seller, div.adsSeller")
-        ?.textContent.trim();
+      const adsDescription = infoContainer.querySelector("div.first").textContent;
+      const supplier = infoContainer.querySelector("div.seller, div.adsSeller")?.textContent.trim();
       const productURL = item.querySelector("a")["href"];
       const currentPriceNode = item.querySelector("div.current-price");
       const originalPriceNode = item.querySelector("div.origin-price");

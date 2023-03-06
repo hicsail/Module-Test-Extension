@@ -54,14 +54,10 @@ function amazonTopBannerScraper() {
     }
 
     for (const item of items) {
-      const asin = item
-        .querySelector("div.a-section.a-spacing-none")
-        .getAttribute("data-asin");
+      const asin = item.querySelector("div.a-section.a-spacing-none").getAttribute("data-asin");
       const img = item.querySelector("img");
       const productURL = item.querySelector("a")["href"];
-      const adsDescription = item.querySelector(
-        "span.a-truncate-full"
-      ).textContent;
+      const adsDescription = item.querySelector("span.a-truncate-full").textContent;
       let imgURL = isURL(img["src"]) ? img["src"] : null;
       let imgBASE64 = isURL(img["src"]) ? null : img["src"];
 
@@ -109,9 +105,7 @@ function amazonBottomBannerScraper() {
         img["alt"].indexOf(".")
       );
       const productURL = item.querySelector("a")["href"];
-      const adsDescription = item.querySelector(
-        "span.a-truncate-full"
-      ).textContent;
+      const adsDescription = item.querySelector("span.a-truncate-full").textContent;
       let imgURL = isURL(img["src"]) ? img["src"] : null;
       let imgBASE64 = isURL(img["src"]) ? null : img["src"];
 
@@ -157,9 +151,7 @@ function amazonSearchResultScraper() {
     const currentPrice = extractCurrentAmazonPrice(item);
     const originalPrice = extractOriginalAmazonPrice(item);
     const productURL = item.querySelector("a.a-link-normal")["href"];
-    const adsDescription = item.querySelector(
-      "span.a-color-base.a-text-normal"
-    ).textContent;
+    const adsDescription = item.querySelector("span.a-color-base.a-text-normal").textContent;
     let imgURL = isURL(resultImage["src"]) ? resultImage["src"] : null;
     let imgBASE64 = isURL(resultImage["src"]) ? null : resultImage["src"];
 
@@ -208,9 +200,7 @@ function amazonRhfScraper() {
 
     carouselSet.add(asin);
 
-    const adsDescription = node.querySelector(
-      "span.a-truncate-full"
-    ).textContent;
+    const adsDescription = node.querySelector("span.a-truncate-full").textContent;
     const productURL = node.querySelector("a")["href"];
     const currentPrice = extractCurrentAmazonPrice(node);
     const originalPrice = extractOriginalAmazonPrice(node);
@@ -245,14 +235,10 @@ function amazonRhfScraper() {
   // define observer for monitoring the carousel list, fires when user move to another page
   const observerCarousel = new MutationObserver(() => {
     setTimeout(() => {
-      const sponsoredTags = document
-        .querySelector("div.rhf-frame")
-        .querySelectorAll("div.spUl");
+      const sponsoredTags = document.querySelector("div.rhf-frame").querySelectorAll("div.spUl");
 
       for (const sponsoredTag of sponsoredTags) {
-        const carouselList = sponsoredTag
-          .closest("div.celwidget")
-          .querySelector("ol");
+        const carouselList = sponsoredTag.closest("div.celwidget").querySelector("ol");
 
         if (
           !carouselList.getAttribute("aria-busy") ||
@@ -282,9 +268,7 @@ function amazonRhfScraper() {
         if (sponsoredTags.length > 0) {
           for (const sponsoredTag of sponsoredTags) {
             // for each sponsor tag, get the list associated to it
-            const sponsoredList = sponsoredTag
-              .closest("div.celwidget")
-              .querySelector("ol");
+            const sponsoredList = sponsoredTag.closest("div.celwidget").querySelector("ol");
 
             // log the list at the first time
             if (!sponsoredList.getAttribute("aria-busy")) {
@@ -328,8 +312,7 @@ function amazonHorizontalBannerScraper() {
       const videoURL = video["src"];
       const videoPreview = video["poster"];
       const productURL = banner.querySelector("a.a-link-normal")["href"];
-      const adsDescription =
-        banner.querySelector("span.a-text-normal").textContent;
+      const adsDescription = banner.querySelector("span.a-text-normal").textContent;
       let imgURL = isURL(img["src"]) ? img["src"] : null;
       let imgBASE64 = isURL(img["src"]) ? null : img["src"];
 
@@ -373,17 +356,12 @@ function detectDuplicateAndSendMsg(collection, item) {
 function extractCurrentAmazonPrice(node) {
   try {
     const currentPrice = node
-      .querySelector(
-        ".a-size-base.a-link-normal.s-underline-text.s-underline-link-text"
-      )
+      .querySelector(".a-size-base.a-link-normal.s-underline-text.s-underline-link-text")
       .querySelector(".a-price:not(.a-text-price)");
 
     return currentPrice
       ? Number(
-          currentPrice
-            .querySelector(".a-offscreen")
-            .textContent.split("$")[1]
-            .replaceAll(",", "")
+          currentPrice.querySelector(".a-offscreen").textContent.split("$")[1].replaceAll(",", "")
         )
       : null;
   } catch (error) {
@@ -394,17 +372,12 @@ function extractCurrentAmazonPrice(node) {
 function extractOriginalAmazonPrice(node) {
   try {
     const originalPrice = node
-      .querySelector(
-        ".a-size-base.a-link-normal.s-underline-text.s-underline-link-text"
-      )
+      .querySelector(".a-size-base.a-link-normal.s-underline-text.s-underline-link-text")
       .querySelector(".a-price.a-text-price");
 
     return originalPrice
       ? Number(
-          originalPrice
-            .querySelector(".a-offscreen")
-            .textContent.split("$")[1]
-            .replaceAll(",", "")
+          originalPrice.querySelector(".a-offscreen").textContent.split("$")[1].replaceAll(",", "")
         )
       : null;
   } catch (error) {

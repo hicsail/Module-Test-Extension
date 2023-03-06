@@ -30,10 +30,7 @@ function duckduckgoScraper() {
     let shoppingTabTriggered = false;
     const shoppingTabObserver = new MutationObserver(function (mutations) {
       mutations.forEach(function (mutation) {
-        if (
-          mutation.target.classList.contains("is-active") &&
-          !shoppingTabTriggered
-        ) {
+        if (mutation.target.classList.contains("is-active") && !shoppingTabTriggered) {
           setTimeout(ddgShoppingTabAds, 5000);
           shoppingTabTriggered = true;
         }
@@ -125,9 +122,7 @@ function ddgAllTabsAdsWithPhoto() {
   }
 
   for (const adsContainer of adsContainers) {
-    const adsDescription = adsContainer.querySelector(
-      "a.js-carousel-item-title"
-    ).textContent;
+    const adsDescription = adsContainer.querySelector("a.js-carousel-item-title").textContent;
     const supplier = adsContainer
       .querySelector("div.module--carousel__footer")
       .querySelector("span").textContent;
@@ -142,8 +137,7 @@ function ddgAllTabsAdsWithPhoto() {
       .querySelector("span.module--carousel__body__original-price")
       ?.textContent.replaceAll(/[^0-9^\.]/g, "");
     const imgSrc = decodeURIComponent(
-      adsContainer.querySelector("div.js-carousel-item-image").style
-        .backgroundImage
+      adsContainer.querySelector("div.js-carousel-item-image").style.backgroundImage
     ).match(/http[^'"]*/g)[0];
     let imgURL = isURL(imgSrc) ? imgSrc : null;
     let imgBASE64 = isURL(imgSrc) ? null : imgSrc;
@@ -182,9 +176,7 @@ function ddgAllTabsSideAds() {
     .querySelectorAll("div.has-image");
 
   for (const adsContainer of adsContainers) {
-    const adsDescription = adsContainer.querySelector(
-      "a.js-carousel-item-title"
-    ).textContent;
+    const adsDescription = adsContainer.querySelector("a.js-carousel-item-title").textContent;
     const supplier = adsContainer
       .querySelector("div.module--carousel__footer")
       .querySelector("span").textContent;
@@ -196,8 +188,7 @@ function ddgAllTabsSideAds() {
         .textContent.replaceAll(/[^0-9^\.]/g, "")
     );
     const imgSrc = decodeURIComponent(
-      adsContainer.querySelector("div.js-carousel-item-image").style
-        .backgroundImage
+      adsContainer.querySelector("div.js-carousel-item-image").style.backgroundImage
     ).match(/http[^'"]*/g)[0];
     let imgURL = isURL(imgSrc) ? imgSrc : null;
     let imgBASE64 = isURL(imgSrc) ? null : imgSrc;
@@ -232,9 +223,7 @@ function ddgAllTabsSideAds() {
  */
 function ddgShoppingTabAds() {
   try {
-    const itemList = document
-      .querySelector("div.tile-wrap")
-      .querySelectorAll("div.tile--products");
+    const itemList = document.querySelector("div.tile-wrap").querySelectorAll("div.tile--products");
 
     for (const item of itemList) {
       const adsDescription = item
@@ -264,9 +253,7 @@ function ddgShoppingTabAds() {
         adsDescription,
         supplier,
         productURL,
-        currentPrice: Number(
-          currentPriceNode.textContent.replaceAll(/[^0-9^\.]/g, "")
-        ),
+        currentPrice: Number(currentPriceNode.textContent.replaceAll(/[^0-9^\.]/g, "")),
         originalPrice: originalPriceNode
           ? Number(originalPriceNode.textContent.replaceAll(/[^0-9^\.]/g, ""))
           : null,

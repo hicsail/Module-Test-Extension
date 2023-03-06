@@ -85,14 +85,10 @@ function bingAdsWithoutPhoto() {
 function bingSearchTabAdsWithPhoto() {
   if (document.location.pathname !== "/search") return;
 
-  const adsContainers = document.querySelectorAll(
-    "div.adsMvCarousel.pa_carousel"
-  );
+  const adsContainers = document.querySelectorAll("div.adsMvCarousel.pa_carousel");
   for (const adsContainer of adsContainers) {
     const listId = adsContainer.getAttribute("carouselid");
-    const itemList = adsContainer.querySelector(
-      `div#slideexp${listId}.b_slidebar`
-    );
+    const itemList = adsContainer.querySelector(`div#slideexp${listId}.b_slidebar`);
 
     for (const item of itemList.childNodes) {
       if (item.classList.contains("see_more")) continue;
@@ -105,12 +101,8 @@ function bingSearchTabAdsWithPhoto() {
         });
       const supplier = item.querySelector("cite").textContent;
       const productURL = item.querySelector("a")["href"];
-      const currentPriceNode = item
-        .querySelector("p.pa_price")
-        .querySelector("strong");
-      const originalPriceNode = item
-        .querySelector("p.pa_price")
-        .querySelector("span");
+      const currentPriceNode = item.querySelector("p.pa_price").querySelector("strong");
+      const originalPriceNode = item.querySelector("p.pa_price").querySelector("span");
       const img = item.querySelector("div.pa_img").querySelector("img");
       let imgURL = isURL(img["src"]) ? img["src"] : null;
       let imgBASE64 = isURL(img["src"]) ? null : img["src"];
@@ -126,9 +118,7 @@ function bingSearchTabAdsWithPhoto() {
         adsDescription,
         supplier,
         productURL,
-        currentPrice: Number(
-          currentPriceNode.textContent.replaceAll(/[^0-9^\.]/g, "")
-        ),
+        currentPrice: Number(currentPriceNode.textContent.replaceAll(/[^0-9^\.]/g, "")),
         originalPrice: originalPriceNode
           ? Number(originalPriceNode.textContent.replaceAll(/[^0-9^\.]/g, ""))
           : null,
@@ -158,18 +148,13 @@ function bingSearchTabAboutWithPhoto() {
     let itemList = adsContainer.querySelectorAll(".br-gridInterCard");
     if (itemList.length === 0) {
       const listId = adsContainer.getAttribute("carouselid");
-      itemList = adsContainer.querySelector(
-        `div#slideexp${listId}.b_slidebar`
-      ).childNodes;
+      itemList = adsContainer.querySelector(`div#slideexp${listId}.b_slidebar`).childNodes;
     }
     for (const item of itemList) {
       if (item.classList.contains("see_more")) continue;
 
       const adsDescription =
-        item
-          .querySelector("div.pcc-ttl")
-          ?.querySelector("span")
-          ?.getAttribute("title") ??
+        item.querySelector("div.pcc-ttl")?.querySelector("span")?.getAttribute("title") ??
         item.querySelector("div.pcc-ttl").textContent;
       const supplier = item.querySelector("div.sa_seller").textContent;
       const productURL = item.querySelector("a")["href"];
@@ -233,9 +218,7 @@ function bingSearchTabCarAdsContainer() {
     const supplier = item.querySelector("span.dealerName").textContent;
     const productURL = item.parentNode["href"];
     const currentPrice = Number(
-      item
-        .querySelector("div.priceDetails_A")
-        .textContent.replaceAll(/[^0-9^\.]/g, "")
+      item.querySelector("div.priceDetails_A").textContent.replaceAll(/[^0-9^\.]/g, "")
     );
     const img = item.querySelector("img");
     let imgURL = isURL(img["src"]) ? img["src"] : null;
@@ -273,29 +256,21 @@ function bingSearchTabCarAdsCarousel() {
   if (document.location.pathname !== "/search") return;
 
   const adsContainer = document.querySelector("div.autos_ml_ads_container");
-  const adsCarousel = adsContainer?.querySelector(
-    "div.ta_carousel.adsMvCarousel"
-  );
+  const adsCarousel = adsContainer?.querySelector("div.ta_carousel.adsMvCarousel");
   const listId = adsCarousel?.getAttribute("carouselid");
-  const itemList = adsContainer?.querySelector(
-    `div#slideexp${listId}.b_slidebar`
-  );
+  const itemList = adsContainer?.querySelector(`div#slideexp${listId}.b_slidebar`);
   if (!itemList || itemList?.length === 0) return;
   for (const item of itemList.childNodes) {
     if (item.classList.contains("see_more")) continue;
     const adsDescription =
-      item
-        .querySelector("div.title")
-        .querySelector("span")
-        ?.getAttribute("title") ?? item.querySelector("div.title").textContent;
+      item.querySelector("div.title").querySelector("span")?.getAttribute("title") ??
+      item.querySelector("div.title").textContent;
     const supplier = item
       .querySelector("div.dealerDetails")
       .querySelector("span.dealerName").textContent;
     const productURL = item.querySelector("a")["href"];
     const currentPrice = Number(
-      item
-        .querySelector("div.priceDetails")
-        .textContent.replaceAll(/[^0-9^\.]/g, "")
+      item.querySelector("div.priceDetails").textContent.replaceAll(/[^0-9^\.]/g, "")
     );
     const img = item.querySelector("img");
     let imgURL = isURL(img["src"]) ? img["src"] : null;
@@ -342,9 +317,7 @@ function bingSearchTabCarAdsSlidebar() {
       item.querySelector("div.slideTitle").textContent;
     const productURL = item.querySelector("a")["href"];
     const currentPrice = Number(
-      item
-        .querySelector("div.bm_adprice")
-        .textContent.replaceAll(/[^0-9^\.]/g, "")
+      item.querySelector("div.bm_adprice").textContent.replaceAll(/[^0-9^\.]/g, "")
     );
     const img = item.querySelector("img");
     let imgURL = isURL(img["src"]) ? img["src"] : null;
@@ -383,20 +356,14 @@ function bingImagesTabAdsWithPhoto() {
 
   const adsContainers = document.querySelectorAll("div.ra_car_container");
   for (const adsContainer of adsContainers) {
-    const id = adsContainer
-      .querySelector("div.ta_carousel")
-      .getAttribute("carouselid");
+    const id = adsContainer.querySelector("div.ta_carousel").getAttribute("carouselid");
     const itemList = adsContainer.querySelector(`div#slideexp${id}.b_slidebar`);
     for (const item of itemList.childNodes) {
       const adsDescription = item.querySelector("div.ra_title").textContent;
       const supplier = item.querySelector("div.ra_seller").textContent;
       const productURL = item.querySelector("a")["href"];
-      const currentPriceNode = item
-        .querySelector("div.ra_price")
-        .querySelector("div.ra_sp");
-      const originalPriceNode = item
-        .querySelector("div.ra_price")
-        .querySelector("div.ra_op");
+      const currentPriceNode = item.querySelector("div.ra_price").querySelector("div.ra_sp");
+      const originalPriceNode = item.querySelector("div.ra_price").querySelector("div.ra_op");
       const img = item.querySelector("img");
       let imgURL = isURL(img["src"]) ? img["src"] : null;
       let imgBASE64 = isURL(img["src"]) ? null : img["src"];
@@ -412,9 +379,7 @@ function bingImagesTabAdsWithPhoto() {
         adsDescription,
         supplier,
         productURL,
-        currentPrice: Number(
-          currentPriceNode.textContent.replaceAll(/[^0-9^\.]/g, "")
-        ),
+        currentPrice: Number(currentPriceNode.textContent.replaceAll(/[^0-9^\.]/g, "")),
         originalPrice: originalPriceNode
           ? Number(originalPriceNode.textContent.replaceAll(/[^0-9^\.]/g, ""))
           : null,
@@ -437,9 +402,7 @@ function bingImagesTabAdsWithPhoto() {
 function bingShoppingTabAds() {
   if (document.location.pathname !== "/shop") return;
 
-  const adsContainers = document.querySelectorAll(
-    "div.br-pcContainer[carouselid]"
-  );
+  const adsContainers = document.querySelectorAll("div.br-pcContainer[carouselid]");
   for (const adsContainer of adsContainers) {
     const id = adsContainer.getAttribute("carouselid");
     const itemList = adsContainer.querySelector(`div#slideexp${id}.b_slidebar`);
@@ -448,9 +411,7 @@ function bingShoppingTabAds() {
       const supplier = item.querySelector("div.br-offSlr").textContent;
       const productURL = item.querySelector("a")["href"];
       const currentPriceNode = item.querySelector("div.br-price");
-      const originalPriceNode = item.querySelector(
-        "div.br-standardPriceDemoted"
-      );
+      const originalPriceNode = item.querySelector("div.br-standardPriceDemoted");
       const img = item.querySelector("img");
       let imgURL = isURL(img["src"]) ? img["src"] : null;
       let imgBASE64 = isURL(img["src"]) ? null : img["src"];
@@ -466,9 +427,7 @@ function bingShoppingTabAds() {
         adsDescription,
         supplier,
         productURL,
-        currentPrice: Number(
-          currentPriceNode.textContent.replaceAll(/[^0-9^\.]/g, "")
-        ),
+        currentPrice: Number(currentPriceNode.textContent.replaceAll(/[^0-9^\.]/g, "")),
         originalPrice: originalPriceNode
           ? Number(originalPriceNode.textContent.replaceAll(/[^0-9^\.]/g, ""))
           : null,
