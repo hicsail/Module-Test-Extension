@@ -14,9 +14,7 @@ function getBetween(str, str_a, str_b) {
 
 function extractAsinFromUrl(url) {
   try {
-    const regex = RegExp(
-      "(http|https)://www.amazon..*(%2Fdp%2F|/dp/)([A-Z0-9]{10})"
-    );
+    const regex = RegExp("(http|https)://www.amazon..*(%2Fdp%2F|/dp/)([A-Z0-9]{10})");
 
     return url.match(regex)[3];
   } catch (error) {
@@ -35,18 +33,6 @@ function isURL(str) {
     "i"
   ); // fragment locator
   return !!pattern.test(str);
-}
-
-function listenClickOnAd(node, redirectURL) {
-  node.addEventListener("click", () => {
-    const redirectEvent = {
-      host: window.location.host,
-      url: window.location.href,
-      redirectURL,
-    };
-
-    console.log(`Redirecting to ${redirectEvent}`);
-  });
 }
 
 function sendMsg(item) {
