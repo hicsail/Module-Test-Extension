@@ -219,22 +219,26 @@ chrome.webRequest.onCompleted.addListener(
       // response url is the same as the url in the dictionary means the request is a refresh
       if (details.url === tabLookup[tab.id]) return;
       console.log(`[Ad Redirect] Capturing redirect at ${recordTime}`);
-      console.log({
+      // PAYLOAD TO SEND
+      const payload = {
         datetime: recordTime,
         originalUrl: tabLookup[tab.id],
         destinationUrl: details.url,
-      });
+      };
+      console.log(payload);
     }
 
     tabLookup[tab.id] = tab.url;
 
     if (newTabRedirect) {
       console.log(`[Ad Redirect] Capturing redirect at ${recordTime}`);
-      console.log({
+      // PAYLOAD TO SEND
+      const payload = {
         datetime: recordTime,
         originalUrl: tabLookup[tab.openerTabId],
         destinationUrl: details.url,
-      });
+      };
+      console.log(payload);
     }
   },
   {
@@ -289,6 +293,7 @@ chrome.webRequest.onResponseStarted.addListener(
     }
     console.log(`Completed Message: at ${new Date(details.timeStamp)}`);
 
+    // PAYLOAD TO SEND
     const adPayload = {
       url: details.url,
       requestId: details.requestId,
