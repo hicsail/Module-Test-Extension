@@ -250,6 +250,18 @@ chrome.webRequest.onCompleted.addListener(
 
 // ########## END: request/redirect capture ##########
 // ########## START: image URL capture ##########
+const allowedSites = new Set();
+allowedSites.add("www.npr.org");
+allowedSites.add("www.nytimes.com");
+allowedSites.add("www.washingtonpost.com");
+allowedSites.add("www.cnn.com");
+allowedSites.add("www.foxnews.com");
+allowedSites.add("www.foxbusiness.com");
+allowedSites.add("www.bbc.com");
+allowedSites.add("www.reuters.com");
+allowedSites.add("www.washingtonpost.com");
+allowedSites.add("www.wsj.com");
+allowedSites.add("www.nbcnews.com");
 
 chrome.webRequest.onResponseStarted.addListener(
   async function (details) {
@@ -258,6 +270,8 @@ chrome.webRequest.onResponseStarted.addListener(
     }
 
     const tabInfo = await chrome.tabs.get(details.tabId);
+    const currentUrl = new URL(tabInfo.url);
+    if (!allowedSites.has(currentUrl.hostname)) return;
 
     const responseHeaders = {};
 
@@ -285,11 +299,20 @@ chrome.webRequest.onResponseStarted.addListener(
       }
     }
 
-    const url = new URL(details.url);
-    const urlParts = new URL(tabInfo.url).hostname.split(".");
-    const name = urlParts[urlParts.length - 2];
+    const responseUrl = new URL(details.url);
+    const responseUrlParts = responseUrl.hostname.split(".");
+    const url = new URL((await chrome.tabs.get(details.tabId)).url);
+    const name = responseUrlParts[responseUrlParts.length - 2];
     for (const part of url.hostname.split(".")) {
       if (part.includes(name)) return;
+      if (name.includes(part)) return;
+    }
+
+    for (const site of Array.from(allowedSites)) {
+      for (const part of site.split(".")) {
+        if (part.includes(name)) return;
+        if (name.includes(part)) return;
+      }
     }
     console.log(`Completed Message: at ${new Date(details.timeStamp)}`);
 
