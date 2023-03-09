@@ -138,6 +138,7 @@ async function iframeImageCapture(details) {
   });
 }
 
+// ########## START: request/redirect capture ##########
 // dictionary to store all tabs and their urls
 const tabLookup = {};
 
@@ -164,8 +165,6 @@ chrome.tabs.onRemoved.addListener(async (tabId, removeInfo) => {
     delete tabLookup[tabId];
   }, 1000);
 });
-
-// ########## START: request/redirect capture ##########
 
 // a set of domains where changing path does not trigger a request
 const tabUpdateSet = new Set();
