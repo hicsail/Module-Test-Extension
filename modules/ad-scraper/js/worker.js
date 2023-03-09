@@ -165,9 +165,21 @@ chrome.tabs.onRemoved.addListener(async (tabId, removeInfo) => {
   }, 1000);
 });
 
+// ########## START: request/redirect capture ##########
+
 // a set of domains where changing path does not trigger a request
 const tabUpdateSet = new Set();
 tabUpdateSet.add("www.npr.org");
+
+setInterval(() => {
+  chrome.tabs.query({}, async (tabs) => {
+    for (const tab of tabs) {
+      if (tab.id in tabLookup) continue;
+      await sleep(1000);
+      tabLookup[tab.id] = tab.url;
+    }
+  });
+}, 3000);
 
 // some websites does not send a request when the path has been changed
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
@@ -233,6 +245,9 @@ chrome.webRequest.onCompleted.addListener(
   ["responseHeaders"]
 );
 
+// ########## END: request/redirect capture ##########
+// ########## START: image URL capture ##########
+
 chrome.webRequest.onResponseStarted.addListener(
   async function (details) {
     if (details.tabId < 0) {
@@ -291,12 +306,4 @@ chrome.webRequest.onResponseStarted.addListener(
   ["responseHeaders", "extraHeaders"]
 );
 
-setInterval(() => {
-  chrome.tabs.query({}, async (tabs) => {
-    for (const tab of tabs) {
-      if (tab.id in tabLookup) continue;
-      await sleep(1000);
-      tabLookup[tab.id] = tab.url;
-    }
-  });
-}, 3000);
+// ########## END: image URL capture ##########
