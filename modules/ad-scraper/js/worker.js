@@ -151,7 +151,6 @@ chrome.tabs.query({}, (tabs) => {
 
 // when a tab is created, it will be added to the dictionary if it is a new tab
 chrome.tabs.onCreated.addListener((tab) => {
-  console.log(tab);
   if (
     tab.url.replaceAll("/", "") === "chrome:newtab" ||
     tab.pendingUrl?.replaceAll("/", "") === "chrome:newtab"
@@ -169,13 +168,18 @@ chrome.tabs.onRemoved.addListener(async (tabId, removeInfo) => {
 // a set of domains where changing path does not trigger a request
 const tabUpdateSet = new Set();
 tabUpdateSet.add("www.npr.org");
+tabUpdateSet.add("duckduckgo.com");
+tabUpdateSet.add("www.youtube.com");
 
 setInterval(() => {
   chrome.tabs.query({}, async (tabs) => {
     for (const tab of tabs) {
-      if (tab.id in tabLookup) continue;
       await sleep(1000);
-      tabLookup[tab.id] = tab.url;
+      if (tab.id in tabLookup) {
+        if (tab.status === "complete" && tabLookup[tab.id] !== tab.url) tabLookup[tab.id] = tab.url;
+      } else {
+        tabLookup[tab.id] = tab.url;
+      }
     }
   });
 }, 3000);
@@ -269,9 +273,19 @@ chrome.webRequest.onResponseStarted.addListener(
       return;
     }
 
-    const tabInfo = await chrome.tabs.get(details.tabId);
-    const currentUrl = new URL(tabInfo.url);
-    if (!allowedSites.has(currentUrl.hostname)) return;
+    let tabInfo = await chrome.tabs.get(details.tabId);
+    try {
+      const currentUrl = new URL(tabInfo.url);
+      if (!allowedSites.has(currentUrl.hostname)) return;
+    } catch (e) {
+      let maxIterations = 10;
+      while (tabInfo.status !== "complete" && maxIterations-- > 0) {
+        await sleep(1000);
+        tabInfo = await chrome.tabs.get(details.tabId);
+      }
+
+      if (!allowedSites.has(new URL(tabInfo.url).hostname)) return;
+    }
 
     const responseHeaders = {};
 
