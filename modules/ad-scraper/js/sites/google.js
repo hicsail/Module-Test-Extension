@@ -33,8 +33,6 @@ function googleAllTabAdsWithoutPhoto() {
       let imgURL = isURL(img?.src) ? img.src : null;
       let imgBASE64 = isURL(img?.src) ? null : img?.src;
 
-      listenClickOnAd(adsContainer, productURL);
-
       const adsItem = {
         asin: extractAsinFromUrl(productURL),
         content: "records_ads",
@@ -83,8 +81,6 @@ function googleAllTabAdsWithPhoto() {
         let imgURL = isURL(img["src"]) ? img["src"] : null;
         let imgBASE64 = isURL(img["src"]) ? null : img["src"];
 
-        listenClickOnAd(item, productURL);
-
         const adsItem = {
           asin: extractAsinFromUrl(productURL),
           content: "records_ads",
@@ -128,8 +124,6 @@ function googleAllTabAdsWithPhoto() {
         const img = item.querySelector("img");
         let imgURL = isURL(img["src"]) ? img["src"] : null;
         let imgBASE64 = isURL(img["src"]) ? null : img["src"];
-
-        listenClickOnAd(item, productURL);
 
         const adsItem = {
           asin: extractAsinFromUrl(productURL),
@@ -184,8 +178,6 @@ function googleImageTabAds() {
       let imgURL = isURL(img["src"]) ? img["src"] : null;
       let imgBASE64 = isURL(img["src"]) ? null : img["src"];
 
-      listenClickOnAd(item, productURL);
-
       const adsItem = {
         asin: extractAsinFromUrl(productURL),
         content: "records_ads",
@@ -221,8 +213,6 @@ function googleImageTabAds() {
       const img = item.querySelector("img");
       let imgURL = isURL(img["src"]) ? img["src"] : null;
       let imgBASE64 = isURL(img["src"]) ? null : img["src"];
-
-      listenClickOnAd(item, productURL);
 
       const adsItem = {
         asin: extractAsinFromUrl(productURL),
@@ -275,8 +265,6 @@ function googleShoppingTabAds() {
       const img = item.querySelector("img");
       let imgURL = isURL(img["src"]) ? img["src"] : null;
       let imgBASE64 = isURL(img["src"]) ? null : img["src"];
-
-      listenClickOnAd(item, productURL);
 
       const adsItem = {
         asin: extractAsinFromUrl(productURL),

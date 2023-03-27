@@ -27,8 +27,6 @@ function yahooAllTabAdsWithoutPhoto() {
     const supplier = item.querySelector("span.ad-domain").textContent;
     const productURL = item.querySelector("a")["href"];
 
-    listenClickOnAd(item, productURL);
-
     const adsItem = {
       asin: extractAsinFromUrl(productURL),
       content: "records_ads",
@@ -69,8 +67,6 @@ function yahooAllTabAdsWithPhoto() {
       const img = item.querySelector("img");
       let imgURL = isURL(img["src"]) ? img["src"] : null;
       let imgBASE64 = isURL(img["src"]) ? null : img["src"];
-
-      listenClickOnAd(item, productURL);
 
       const adsItem = {
         asin: extractAsinFromUrl(productURL),
@@ -114,8 +110,6 @@ function yahooImageTabAdsWithoutPhoto() {
       const supplier = item.querySelector("span.ht").textContent;
       const productURL = item.querySelector("a")["href"];
 
-      listenClickOnAd(item, productURL);
-
       const adsItem = {
         asin: extractAsinFromUrl(productURL),
         content: "records_ads",
@@ -157,8 +151,6 @@ function yahooImageTabAdsWithPhoto() {
       const img = item.querySelector("img");
       let imgURL = isURL(img["src"]) ? img["src"] : null;
       let imgBASE64 = isURL(img["src"]) ? null : img["src"];
-
-      listenClickOnAd(item, productURL);
 
       const adsItem = {
         asin: extractAsinFromUrl(productURL),

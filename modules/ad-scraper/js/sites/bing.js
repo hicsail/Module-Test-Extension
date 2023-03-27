@@ -33,8 +33,6 @@ function bingAdsWithoutPhoto() {
     const productURL = item.querySelector("a")["href"];
     if (!isURL(productURL)) return;
 
-    listenClickOnAd(item, productURL);
-
     const adsItem = {
       asin: extractAsinFromUrl(productURL),
       content: "records_ads",
@@ -107,8 +105,6 @@ function bingSearchTabAdsWithPhoto() {
       let imgURL = isURL(img["src"]) ? img["src"] : null;
       let imgBASE64 = isURL(img["src"]) ? null : img["src"];
 
-      listenClickOnAd(item, productURL);
-
       const adsItem = {
         asin: extractAsinFromUrl(productURL),
         content: "records_ads",
@@ -177,8 +173,6 @@ function bingSearchTabAboutWithPhoto() {
       let imgURL = isURL(img["src"]) ? img["src"] : null;
       let imgBASE64 = isURL(img["src"]) ? null : img["src"];
 
-      listenClickOnAd(item, productURL);
-
       const adsItem = {
         asin: extractAsinFromUrl(productURL),
         content: "records_ads",
@@ -223,8 +217,6 @@ function bingSearchTabCarAdsContainer() {
     const img = item.querySelector("img");
     let imgURL = isURL(img["src"]) ? img["src"] : null;
     let imgBASE64 = isURL(img["src"]) ? null : img["src"];
-
-    listenClickOnAd(item, productURL);
 
     const adsItem = {
       asin: extractAsinFromUrl(productURL),
@@ -276,8 +268,6 @@ function bingSearchTabCarAdsCarousel() {
     let imgURL = isURL(img["src"]) ? img["src"] : null;
     let imgBASE64 = isURL(img["src"]) ? null : img["src"];
 
-    listenClickOnAd(item, productURL);
-
     const adsItem = {
       asin: extractAsinFromUrl(productURL),
       content: "records_ads",
@@ -323,8 +313,6 @@ function bingSearchTabCarAdsSlidebar() {
     let imgURL = isURL(img["src"]) ? img["src"] : null;
     let imgBASE64 = isURL(img["src"]) ? null : img["src"];
 
-    listenClickOnAd(item, productURL);
-
     const adsItem = {
       asin: extractAsinFromUrl(productURL),
       content: "records_ads",
@@ -367,8 +355,6 @@ function bingImagesTabAdsWithPhoto() {
       const img = item.querySelector("img");
       let imgURL = isURL(img["src"]) ? img["src"] : null;
       let imgBASE64 = isURL(img["src"]) ? null : img["src"];
-
-      listenClickOnAd(item, productURL);
 
       const adsItem = {
         asin: extractAsinFromUrl(productURL),
@@ -415,8 +401,6 @@ function bingShoppingTabAds() {
       const img = item.querySelector("img");
       let imgURL = isURL(img["src"]) ? img["src"] : null;
       let imgBASE64 = isURL(img["src"]) ? null : img["src"];
-
-      listenClickOnAd(item, productURL);
 
       const adsItem = {
         asin: extractAsinFromUrl(productURL),

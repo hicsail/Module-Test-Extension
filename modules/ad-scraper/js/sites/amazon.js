@@ -61,8 +61,6 @@ function amazonTopBannerScraper() {
       let imgURL = isURL(img["src"]) ? img["src"] : null;
       let imgBASE64 = isURL(img["src"]) ? null : img["src"];
 
-      listenClickOnAd(item, productURL);
-
       const bannerAds = {
         asin,
         content: "records_ads",
@@ -109,8 +107,6 @@ function amazonBottomBannerScraper() {
       let imgURL = isURL(img["src"]) ? img["src"] : null;
       let imgBASE64 = isURL(img["src"]) ? null : img["src"];
 
-      listenClickOnAd(item, productURL);
-
       const bannerAds = {
         asin: null,
         content: "records_ads",
@@ -154,8 +150,6 @@ function amazonSearchResultScraper() {
     const adsDescription = item.querySelector("span.a-color-base.a-text-normal").textContent;
     let imgURL = isURL(resultImage["src"]) ? resultImage["src"] : null;
     let imgBASE64 = isURL(resultImage["src"]) ? null : resultImage["src"];
-
-    listenClickOnAd(item, productURL);
 
     const resultAds = {
       asin,
@@ -207,8 +201,6 @@ function amazonRhfScraper() {
     const img = node.querySelector("img");
     let imgURL = isURL(img["src"]) ? img["src"] : null;
     let imgBASE64 = isURL(img["src"]) ? null : img["src"];
-
-    listenClickOnAd(node, productURL);
 
     const listAds = {
       asin,
@@ -315,8 +307,6 @@ function amazonHorizontalBannerScraper() {
       const adsDescription = banner.querySelector("span.a-text-normal").textContent;
       let imgURL = isURL(img["src"]) ? img["src"] : null;
       let imgBASE64 = isURL(img["src"]) ? null : img["src"];
-
-      listenClickOnAd(banner, productURL);
 
       const bannerAds = {
         asin,

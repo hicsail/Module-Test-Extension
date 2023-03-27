@@ -82,8 +82,6 @@ function ddgAllTabsAdsWithoutPhoto() {
       .querySelector("span").textContent;
     const productURL = article.querySelector("a")["href"];
 
-    listenClickOnAd(article, productURL);
-
     const adsItem = {
       asin: extractAsinFromUrl(productURL),
       content: "records_ads",
@@ -142,8 +140,6 @@ function ddgAllTabsAdsWithPhoto() {
     let imgURL = isURL(imgSrc) ? imgSrc : null;
     let imgBASE64 = isURL(imgSrc) ? null : imgSrc;
 
-    listenClickOnAd(adsContainer, productURL);
-
     const adsItem = {
       asin: extractAsinFromUrl(productURL),
       content: "records_ads",
@@ -193,8 +189,6 @@ function ddgAllTabsSideAds() {
     let imgURL = isURL(imgSrc) ? imgSrc : null;
     let imgBASE64 = isURL(imgSrc) ? null : imgSrc;
 
-    listenClickOnAd(adsContainer, productURL);
-
     const adsItem = {
       asin: extractAsinFromUrl(productURL),
       content: "records_ads",
@@ -241,8 +235,6 @@ function ddgShoppingTabAds() {
       const imgSrc = item.querySelector("img")["src"];
       let imgURL = isURL(imgSrc) ? imgSrc : null;
       let imgBASE64 = isURL(imgSrc) ? null : imgSrc;
-
-      listenClickOnAd(item, productURL);
 
       const adsItem = {
         asin: extractAsinFromUrl(productURL),
