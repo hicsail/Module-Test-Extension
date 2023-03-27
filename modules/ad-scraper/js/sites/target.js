@@ -45,8 +45,6 @@ function targetSearchResultScraper(adsLog) {
     const imgURL = isURL(img["src"]) ? img["src"] : null;
     const imgBASE64 = isURL(img["src"]) ? null : img["src"];
 
-    listenClickOnAd(item, productURL);
-
     const adsItem = {
       content: "records_ads",
       url: window.location.href,
